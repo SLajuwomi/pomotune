@@ -76,3 +76,40 @@ The datasource url in the application.properties file points to the database in 
 
 - use H2 when developing locally and running several tests
 - wse postgres when testing in live env
+
+# Testing findBy methods
+
+- You can test how many users were found and if their email is correct
+- use indexes and store found users in a list
+
+```java
+@Test
+@DisplayName("find user by email")
+void testFindByEmail() {
+    // Arrange
+    User user = new User();
+    user.setName("Test User");
+    user.setEmail("test@example.com");
+    user.setPassword("password");
+    userRepository.save(user);
+
+    // Act
+    List<User> foundUsers = userRepository.findByEmail("test@example.com");
+
+    // Assert
+    assertEquals(1, foundUsers.size());
+    assertEquals("test@example.com", foundUsers.get(0).getEmail());
+    assertEquals("Test User", foundUsers.get(0).getName());
+}
+
+@Test
+@DisplayName("find user by email returns empty list when no match")
+void testFindByEmailReturnsEmptyList() {
+    // Act
+    List<User> foundUsers = userRepository.findByEmail("nonexistent@example.com");
+
+    // Assert
+    assertTrue(foundUsers.isEmpty());
+}
+
+```
