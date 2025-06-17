@@ -71,3 +71,8 @@ The datasource url in the application.properties file points to the database in 
 # JUnit Assertions
 
 - methods that help verify the expected behavior of your code during testing
+
+# H2 vs PostgreSQL
+
+- use H2 when developing locally and running several tests
+- wse postgres when testing in live env
