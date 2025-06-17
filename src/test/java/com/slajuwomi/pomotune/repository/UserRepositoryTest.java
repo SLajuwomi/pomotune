@@ -1,11 +1,10 @@
-package repository;
+package com.slajuwomi.pomotune.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.junit.jupiter.api.DisplayName;
-import com.slajuwomi.pomotune.repository.UserRepository;
 import com.slajuwomi.pomotune.user.domain.User;
 
 @DataJpaTest
