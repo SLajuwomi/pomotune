@@ -37,3 +37,37 @@ For development, there are two main options:
 - docker stop postgres
 - docker rm postgres
 - docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres
+
+The datasource url in the application.properties file points to the database in the docker container. So remember to create the database in the docker container. - docker exec -it postgres psql -U postgres - CREATE DATABASE pomotune;
+
+: HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+
+# Repository
+
+- Repository is an interface that extends JpaRepository.
+- JpaRepository is a Spring Data JPA interface that provides basic CRUD operations for the entity class that is passed to it.
+- JpaRepository<User, Long> is a JpaRepository that is used to perform CRUD operations on the User entity.
+- The User entity is the entity that is being persisted to the database.
+- The Long is the type of the primary key of the User entity.
+
+# findBy
+
+- findBy in the repository is a query method that is used to find the entity by the given field.
+- using findBy with a field name will generate a query to the database to find the entity by the given field.
+- example:
+  - findByEmail(String email) will generate a query to the database to find the entity by the given email.
+
+# Autowired
+
+- Autowired is a Spring annotation that is used to inject the dependency of the class into the current class.
+- It is used to inject the dependency of the class into the current class.
+- example:
+  - @Autowired private UserRepository userRepository;
+  - This will inject the UserRepository into the current class.
+  - The UserRepository is the repository that is used to perform CRUD operations on the User entity.
+  - The UserRepository is injected into the current class using the @Autowired annotation.
+  - The UserRepository is injected into the current class using the @Autowired annotation.
+
+# JUnit Assertions
+
+- methods that help verify the expected behavior of your code during testing
