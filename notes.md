@@ -2,10 +2,10 @@
 
 - automatic configuration
 - I need to tell Spring Boot
-  - where my database is (URL, host, port)
-  - how to connect to the database (username, password)
-  - what to do with my entities (create tables, update schema, etc.)
-  - This is done in the `application.properties` file
+    - where my database is (URL, host, port)
+    - how to connect to the database (username, password)
+    - what to do with my entities (create tables, update schema, etc.)
+    - This is done in the `application.properties` file
 
 # Database Setup Strat
 
@@ -25,11 +25,13 @@ For development, there are two main options:
 - docker pull postgres
 - docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres
 
-  - -d: Runs the container in detached mode (in the background).W
-  - --name: Assigns a name to the container (my-postgres-container).
-  - -p 5432:5432: Maps the container's port 5432 (default PostgreSQL port) to the host machine's port 5432, allowing you to connect to the database from your host.
-  - -e POSTGRES_PASSWORD=mysecretpassword: Sets the password for the default postgres user. Remember to choose a strong password!
-  - postgres: Specifies the image to use.
+    - -d: Runs the container in detached mode (in the background).W
+    - --name: Assigns a name to the container (my-postgres-container).
+    - -p 5432:5432: Maps the container's port 5432 (default PostgreSQL port) to the host machine's port 5432, allowing
+      you to connect to the database from your host.
+    - -e POSTGRES_PASSWORD=mysecretpassword: Sets the password for the default postgres user. Remember to choose a
+      strong password!
+    - postgres: Specifies the image to use.
 
 - docker exec -it postgres psql -U postgres
 - CREATE DATABASE pomotune;
@@ -38,14 +40,17 @@ For development, there are two main options:
 - docker rm postgres
 - docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres
 
-The datasource url in the application.properties file points to the database in the docker container. So remember to create the database in the docker container. - docker exec -it postgres psql -U postgres - CREATE DATABASE pomotune;
+The datasource url in the application.properties file points to the database in the docker container. So remember to
+create the database in the docker container. - docker exec -it postgres psql -U postgres - CREATE DATABASE pomotune;
 
-: HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+: HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property
+setting and it will be selected by default)
 
 # Repository
 
 - Repository is an interface that extends JpaRepository.
-- JpaRepository is a Spring Data JPA interface that provides basic CRUD operations for the entity class that is passed to it.
+- JpaRepository is a Spring Data JPA interface that provides basic CRUD operations for the entity class that is passed
+  to it.
 - JpaRepository<User, Long> is a JpaRepository that is used to perform CRUD operations on the User entity.
 - The User entity is the entity that is being persisted to the database.
 - The Long is the type of the primary key of the User entity.
@@ -55,18 +60,18 @@ The datasource url in the application.properties file points to the database in 
 - findBy in the repository is a query method that is used to find the entity by the given field.
 - using findBy with a field name will generate a query to the database to find the entity by the given field.
 - example:
-  - findByEmail(String email) will generate a query to the database to find the entity by the given email.
+    - findByEmail(String email) will generate a query to the database to find the entity by the given email.
 
 # Autowired
 
 - Autowired is a Spring annotation that is used to inject the dependency of the class into the current class.
 - It is used to inject the dependency of the class into the current class.
 - example:
-  - @Autowired private UserRepository userRepository;
-  - This will inject the UserRepository into the current class.
-  - The UserRepository is the repository that is used to perform CRUD operations on the User entity.
-  - The UserRepository is injected into the current class using the @Autowired annotation.
-  - The UserRepository is injected into the current class using the @Autowired annotation.
+    - @Autowired private UserRepository userRepository;
+    - This will inject the UserRepository into the current class.
+    - The UserRepository is the repository that is used to perform CRUD operations on the User entity.
+    - The UserRepository is injected into the current class using the @Autowired annotation.
+    - The UserRepository is injected into the current class using the @Autowired annotation.
 
 # JUnit Assertions
 
@@ -83,6 +88,7 @@ The datasource url in the application.properties file points to the database in 
 - use indexes and store found users in a list
 
 ```java
+
 @Test
 @DisplayName("find user by email")
 void testFindByEmail() {
@@ -113,3 +119,35 @@ void testFindByEmailReturnsEmptyList() {
 }
 
 ```
+
+# Service Layer
+
+- you store the business logic of the application
+- acts as an intermediary between your controllers (handles web requests) and repositories (handle database
+  interactions)
+- Benefits:
+    - keep controllers and repositores clean and focused
+    - can be reused by other parts of the application
+    - transactions are managed here
+    - complex validation is done here i.e. validating unique email address, password policies
+
+You need to inject the repository into this layer. This can be done through instructor or dependency injection
+
+Example:
+
+```java
+    private final UserRepository userRepository;
+
+// Constructor Injection
+public UserService(UserRepository userRepository) {
+    this.userRepository = userRepository;
+}
+```
+
+## Handling Errors
+
+- learned how to add an exception handler
+- need to check terminal to find name of exception eg. DataIntegrityViolationException.class
+- then add new @ExceptionHandler with name of exception
+    - @ExceptionHandler(DataIntegrityViolationException.class)
+- create class with return type of ResponseEntity
