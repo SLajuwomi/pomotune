@@ -151,3 +151,31 @@ public UserService(UserRepository userRepository) {
 - then add new @ExceptionHandler with name of exception
     - @ExceptionHandler(DataIntegrityViolationException.class)
 - create class with return type of ResponseEntity
+    - ResponseEntity is a class in Spring Framework that represents the entire HTTP response, including the status code,
+      headers, and body. It's part of Spring's web module and provides a way to have full control over the HTTP response
+      you send back to clients.
+- make JSON objet and return the status, and messages you want
+
+```java
+
+Map<String, Object> response = new HashMap<>();
+        response.put("status", "error");
+        response.put("message", ex.getMessage());
+
+String errorMessage = ex.getMessage();
+
+        if (errorMessage.contains("unique constrain") && errorMessage.contains("email")) {
+        response.put("message", "A user with this email address already exists");
+        } else if (errorMessage.contains("duplicate key")) {
+        response.put("message", "This information is already in use");
+        } else {
+                response.put("message", "Database constraint violation occurred");
+        }
+
+```
+
+- return final ResponseEntity with status code and JSON body
+
+```java
+return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+```
