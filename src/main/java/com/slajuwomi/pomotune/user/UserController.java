@@ -1,4 +1,4 @@
-package com.slajuwomi.pomotune.user.controller;
+package com.slajuwomi.pomotune.user;
 
 import java.util.List;
 
@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.slajuwomi.pomotune.service.UserService;
-import com.slajuwomi.pomotune.user.User;
 
 import jakarta.validation.Valid;
 

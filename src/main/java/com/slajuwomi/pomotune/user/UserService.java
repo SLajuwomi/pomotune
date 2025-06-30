@@ -1,21 +1,18 @@
-package com.slajuwomi.pomotune.service;
+package com.slajuwomi.pomotune.user;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import com.slajuwomi.pomotune.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.slajuwomi.pomotune.user.User;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 
 /**
  * UserService - Business logic layer for User operations
- * 
+ * <p>
  * This service handles all user-related business logic including: - User
  * validation before saving - Coordinating with the repository layer -
  * Converting between different data formats - Enforcing business rules
@@ -23,7 +20,6 @@ import jakarta.validation.Validator;
 @Service
 public class UserService {
 
-    @Autowired
     private Validator validator;
 
     // Final field ensures immutable dependency after construction
@@ -39,16 +35,15 @@ public class UserService {
 
     /**
      * Creates a new user in the system
-     * 
+     * <p>
      * Business logic flow: 1. Validate the user data using Bean Validation
      * annotations 2. If validation passes, save to database via repository 3. If
      * validation fails, throw exception with details
-     * 
+     *
      * @param newUser The user object to create (from controller request)
-     * @return The saved user with generated ID
      * @throws IllegalArgumentException if validation fails
      */
-    public User createUser(User newUser) {
+    public void createUser(User newUser) {
         // Step 1: Validate user data using Bean Validation
         // The validator checks all @NotBlank, @Email, @Size annotations on User entity
         Set<ConstraintViolation<User>> violations = validator.validate(newUser);
@@ -66,12 +61,12 @@ public class UserService {
 
         // Step 3: Save user to database (this was missing in original code!)
         System.out.println("Saving user: " + newUser.getName());
-        return userRepository.save(newUser);
+        userRepository.save(newUser);
     }
 
     /**
      * Retrieves all users from the database
-     * 
+     *
      * @return List of all users (could be empty if no users exist)
      */
     public List<User> getAllUsers() {
@@ -81,7 +76,7 @@ public class UserService {
 
     /**
      * Finds a user by their unique ID
-     * 
+     *
      * @param id The user ID to search for
      * @return User object if found, null if not found
      */
@@ -95,10 +90,10 @@ public class UserService {
 
     /**
      * Finds a user by their email address
-     * 
+     * <p>
      * Note: Repository returns List<User> but email should be unique, so we expect
      * 0 or 1 result
-     * 
+     *
      * @param email The email address to search for
      * @return User object if found, null if not found
      */

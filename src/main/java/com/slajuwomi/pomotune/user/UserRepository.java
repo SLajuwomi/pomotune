@@ -1,10 +1,8 @@
-package com.slajuwomi.pomotune.repository;
+package com.slajuwomi.pomotune.user;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.slajuwomi.pomotune.user.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 

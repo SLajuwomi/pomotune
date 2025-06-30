@@ -22,7 +22,7 @@ Build a full-stack PomoTune application using:
 - [x] Develop UserController (REST API endpoints for user registration and fetching user details)
 
 **Testing**:
-- [ ] Test user registration and retrieval via Postman/cURL
+- [x] Test user registration and retrieval via Postman/cURL
 
 ### Study Session Tracking (StudySession Entity)
 
